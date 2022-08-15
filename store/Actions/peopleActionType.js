@@ -1,0 +1,9 @@
+export const ADD_TO_CONTACTS = 'addToContacts';
+export const ADD_TO_FAVOURITES = 'addToFavourites';
+export const DELETE_FROM_CONTACTS = 'deleteFromContacts';
+export const DELETE_FROM_FAVOURITES = 'deleteFromFavourites';
+export const UPDATE_CONTACT = 'updateContact';
+export const INITIATE_CONTACTS = 'initiateContacts';
+export const ADD_NEW_FORM_USER = 'addNewFormUser';
+export const TOGGLE_CONTACT = 'toggleContact';
+export const TOGGLE_FAVOURITE = 'toggleFavourite';
