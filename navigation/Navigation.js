@@ -88,7 +88,7 @@ function BottomTabs  () {
                 name='Add user screen'
                 component={FormUser}
                 options={{
-                    headerShown:false,
+                    headerShown:true,
                     title:'Add user',
                     tabBarLabel: 'Add user',
                     tabBarIcon: ({ color, size }) => (
