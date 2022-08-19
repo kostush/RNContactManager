@@ -3,28 +3,30 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from "react-native-vector-icons/Octicons";
 
-import { NavigationContainer } from "@react-navigation/native";
+import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import { createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from '@react-navigation/stack';
 import FavouriteScreen from "../screens/FavouriteScreen";
 import PeopleScreen from "../screens/PeopleScreen";
 import ContactScreen from "../screens/ContactScreen";
-import Profile from "../components/Profile";
+import ProfileScreen from "../screens/ProfileScreen";
 import HomeScreen from "../screens/HomeScreen";
 import contactsDefault from '../resourses/contactDefault.json';
 import { useDispatch } from "react-redux";
 import * as peopleActions from '../store/Actions/peopleActions';
-import FormUser from '../components/FormUser';
-import {Text, View} from "react-native";
+import {Pressable, Text, View} from "react-native";
 import Search from '../components/Search';
 import Location from "../components/Location";
-import SearchLocationContainer from '../components/SearchLocationContainer';
-
 
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 
 function BottomTabs  () {
+    const navi = useNavigation();
+    const onPressAddUserBack=()=>{
+        navi.navigate('People screen');
+    }
+
     return (
         <Tabs.Navigator
             screenOptions={({route})=>({
@@ -105,7 +107,7 @@ function BottomTabs  () {
                 }}
             /><Tabs.Screen
                 name='Add user screen'
-                component={Profile}
+                component={ProfileScreen}
                 options={{
                     headerShown:true,
                     title:'Add user',
@@ -113,6 +115,25 @@ function BottomTabs  () {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="account-plus-outline" color={color} size={size} />
                     ),
+                    headerLeft:()=>(
+                        <Pressable onPress={onPressAddUserBack}>
+                            <View style={{
+                                flexDirection:'row',
+                                width:100 ,
+                                marginLeft:5,
+                                marginTop:5,
+                                borderRadius:10,
+                            }}>
+                                <MaterialIcons name={'arrow-back'} size={22} color={'grey'} style={{
+                                    marginLeft:5,
+                                    marginTop:3
+                                }} />
+                            </View>
+                        </Pressable>
+                    ),
+                    headerRight:()=>(
+                        <View></View>
+                    )
                 }}
             />
         </Tabs.Navigator>
@@ -179,7 +200,7 @@ export default function Navigator(){
                 />
                 <Stack.Screen
                     name='Profile screen'
-                    component={Profile}
+                    component={ProfileScreen}
                     options={{
                         title:'User profile',
                         headerShown:true,

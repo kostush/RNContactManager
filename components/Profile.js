@@ -4,8 +4,10 @@ import {useDispatch} from "react-redux";
 import * as peopleActions from '../store/Actions/peopleActions';
 import {useNavigation} from "@react-navigation/native";
 import defaultFormUser from "../resourses/defaultFormUser";
+import * as ProfileChangeMode from '../constants/profileChangeMode';
 
-const Profile = ({route}) =>{
+const Profile = (props) =>{
+    console.warn('Profile',props);
     const dispatch = useDispatch();
     const navigation = useNavigation()
     const getDataFromContact = (contact)=>{
@@ -48,7 +50,7 @@ const Profile = ({route}) =>{
         return newUser;
     }
 
-    const {user} = route.params;
+    const {user,type} = props;
     const [formUser, setFormUser] = useState(getDataFromContact(user));
 
     const handleUserInput = (text,name) =>{
@@ -58,8 +60,16 @@ const Profile = ({route}) =>{
     }
 
     const saveChanges= () =>{
-        dispatch(peopleActions.updateContact(translateFormUserToContact(formUser)));
-        navigation.navigate('List Screen')
+        if (type === ProfileChangeMode.EDIT_MODE){
+            dispatch(peopleActions.updateContact(translateFormUserToContact(formUser)));
+            navigation.navigate('List Screen')
+        }else if (type === ProfileChangeMode.ADD_MODE){
+            dispatch(peopleActions.addNewFormUser(translateFormUserToContact(formUser)));
+            navigation.navigate('People screen');
+        }
+
+
+
     }
 
     return  (
