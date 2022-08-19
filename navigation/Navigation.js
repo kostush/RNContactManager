@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Octicons from "react-native-vector-icons/Octicons";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from '@react-navigation/stack';
-import FavouriteScreen from "../components/FavouriteScreen";
-import PeopleScreen from "../components/PeopleScreen";
-import ContactScreen from "../components/ContactScreen";
+import FavouriteScreen from "../screens/FavouriteScreen";
+import PeopleScreen from "../screens/PeopleScreen";
+import ContactScreen from "../screens/ContactScreen";
 import Profile from "../components/Profile";
-import HomeScreen from "../components/HomeScreen";
+import HomeScreen from "../screens/HomeScreen";
 import contactsDefault from '../resourses/contactDefault.json';
 import { useDispatch } from "react-redux";
 import * as peopleActions from '../store/Actions/peopleActions';
 import FormUser from '../components/FormUser';
-import {Text} from "react-native";
+import {Text, View} from "react-native";
 import Search from '../components/Search';
 import Location from "../components/Location";
 import SearchLocationContainer from '../components/SearchLocationContainer';
@@ -25,18 +27,39 @@ const Tabs = createBottomTabNavigator();
 function BottomTabs  () {
     return (
         <Tabs.Navigator
-            screenOptions={{
+            screenOptions={({route})=>({
                // headerShown:false,
                 tabBarActiveTintColor: 'tomato',
                 tabBarInactiveTintColor: 'gray',
                 headerTitleAlign: 'center',
-                // header:()=>{
-                //     return(<SearchLocationContainer /> )
-                // },
-                headerStyle: {
-                backgroundColor: '#fff',
-            }
-            }}
+                headerLeft:()=>(
+                    <View style={{
+                        flexDirection:'row',
+                        width:100 ,
+                        marginLeft:5,
+                        marginTop:5,
+                        borderRadius:10,
+                    }}>
+                        <Octicons name={'search'} size={22} color={'grey'} style={{
+                            marginLeft:5,
+                            marginTop:3
+                        }} />
+                        <Search />
+                    </View>
+                ),
+                headerRight:()=>(
+                    <View style={{flexDirection:'row', width:130 ,
+                        justifyContent:'space-between',
+                        marginLeft:50
+                    }}>
+                        <Location />
+                        <MaterialIcons name={'location-on'} size ={26} color={'grey'} style={{
+                            marginRight:5,
+                            marginTop:3
+                        }}/>
+                    </View>
+                )
+            })}
         >
             <Tabs.Screen
                 name='Home screen'
@@ -44,11 +67,9 @@ function BottomTabs  () {
                 options={{
                     tabBarLabel: 'Home',
                      tabBarIcon: ({ color, size }) => (
-                     <MaterialCommunityIcons name="home" color={color} size={size} />
+                        <MaterialCommunityIcons name="home" color={color} size={size} />
                     ),
                 }}
-
-
             />
             <Tabs.Screen
                 name='People screen'
@@ -59,7 +80,6 @@ function BottomTabs  () {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="account-group" color={color} size={size} />
                     ),
-
                 }}
             />
             <Tabs.Screen
@@ -71,7 +91,6 @@ function BottomTabs  () {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="account-multiple-check" color={color} size={size} />
                     ),
-
                 }}
             />
             <Tabs.Screen
@@ -86,7 +105,7 @@ function BottomTabs  () {
                 }}
             /><Tabs.Screen
                 name='Add user screen'
-                component={FormUser}
+                component={Profile}
                 options={{
                     headerShown:true,
                     title:'Add user',
@@ -156,7 +175,6 @@ export default function Navigator(){
                     options={{
                         title:'LIST ',
                         headerShown:false,
-
                     }}
                 />
                 <Stack.Screen
@@ -165,6 +183,14 @@ export default function Navigator(){
                     options={{
                         title:'User profile',
                         headerShown:true,
+                        headerRight:()=>(
+                            <View style={{flexDirection:'row', width:30 ,
+                                justifyContent:'space-between',
+                                marginRight:10
+                            }}>
+                            </View>
+                        )
+
                     }}
                 />
             </Stack.Navigator>

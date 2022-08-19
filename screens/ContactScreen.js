@@ -1,9 +1,9 @@
 import {View, Text, StyleSheet, FlatList, Pressable} from 'react-native';
-import Profile from "./Profile";
+import Profile from "../components/Profile";
 import {useDispatch, useSelector} from "react-redux";
-import List from "./List";
+import List from "../components/List";
 import {useLayoutEffect} from "react";
-import SearchLocationContainer from "./SearchLocationContainer";
+import SearchLocationContainer from "../components/SearchLocationContainer";
 
 
 function  ContactScreen({navigation}) {
@@ -26,7 +26,7 @@ export default ContactScreen;
 
 const styles = StyleSheet.create({
     favouriteContainer:{
-      //  backgroundColor:"red",
+        //backgroundColor:"red",
         margin : 40
     }
 })

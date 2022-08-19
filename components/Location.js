@@ -28,9 +28,8 @@ const Location =() => {
 
     return (
         <View style={styles.locationInner}>
-            <Text >Select you location</Text>
             <Picker
-               // selectedValue={useSelector((state)=> state.location)}
+                selectedValue={useSelector((state)=> state.location)}
                 placeholder={{ label: "Anywhere", value: '' }}
                 useNativeAndroidPickerStyle={false}
                 onValueChange = { itemValue => onSetLocation(itemValue)}
@@ -46,7 +45,8 @@ export default Location;
 const styles = StyleSheet.create({
 
     locationInner:{
-        marginHorizontal:20,
-        alignItems:'flex-end'
+        //marginHorizontal:20,
+        marginTop:5,
+
     },
 })

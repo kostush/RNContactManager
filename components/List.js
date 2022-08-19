@@ -1,4 +1,4 @@
-import {Button, FlatList, Text, View, StyleSheet, Pressable, Image} from "react-native";
+import {Button, FlatList, Text, View, StyleSheet, Pressable, Image, ImageBackground} from "react-native";
 import People from "../resourses/contactDefault.json";
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -7,6 +7,7 @@ import * as peopleActions from '../store/Actions/peopleActions';
 import  Search  from './Search';
 import Location from "./Location";
 import SearchLocationContainer from "./SearchLocationContainer";
+import BG from '../assets/images/BG.png';
 
 
 const getSearchLocationList =(list) =>{
@@ -27,53 +28,52 @@ const List =(props) =>{
     const peopleFilteredBySearchAndLocation = getSearchLocationList(props.list);
 
     return (
-        <View style={ styles.listContainer}>
-            <SearchLocationContainer />
-            <View>
-                <FlatList
-                    data= {peopleFilteredBySearchAndLocation}
-                    renderItem={(itemData) =>{
-                        return(
-                            <View style={styles.itemContainer}>
-                               <Pressable onPress={()=>{
-                                   navigation.navigate('Profile screen',{
-                                       user:itemData.item}
-                                   )
-                               }}>
-                                   <View style={styles.photoName}>
-                                        <Image
-                                            style = {styles.userImage}
-                                            source={require('../assets/userImage.png')}
-                                        />
-                                       <Text>
-                                            {itemData.item.name}
-                                        </Text>
-                                   </View>
-                               </Pressable>
-
-                                <View style={styles.contactFavouriteContainer}>
-                                    <Pressable  onPress={(item)=>{
-                                        dispatch(peopleActions.toggleContact(itemData.item))
-                                    }}
-                                    >
-                                        <MaterialCommunityIcons style={styles.contactFavouriteButton} name="account-multiple-check" color={itemData.item.isContact?'green':'gray'} size={30} />
-                                    </Pressable>
+        <ImageBackground style={{width:'100%', height:'100%'}} source={BG} >
+            <View style={ styles.listContainer}>
+                <View>
+                    <FlatList
+                        data= {peopleFilteredBySearchAndLocation}
+                        renderItem={(itemData) =>{
+                            return(
+                                <View style={styles.itemContainer}>
                                     <Pressable onPress={()=>{
-                                        dispatch(peopleActions.toggleFavourite(itemData.item))
-                                    }}
-                                    >
-                                        <MaterialCommunityIcons style={styles.contactFavouriteButton} name="account-heart" color={itemData.item.isFavourite? 'red':'gray'} size={30} />
+                                        navigation.navigate('Profile screen',{
+                                            user:itemData.item}
+                                        )}}>
+                                        <View style={styles.photoName}>
+                                            <Image
+                                                style = {styles.userImage}
+                                                source={require('../assets/userImage.png')}
+                                            />
+                                            <View style={styles.namePositionContainer}>
+                                                <Text> {itemData.item.name} </Text>
+                                                <Text>  company  {itemData.item.company.name}  </Text>
+                                            </View>
+                                        </View>
                                     </Pressable>
+                                    <View style={styles.contactFavouriteContainer}>
+                                        <Pressable  onPress={(item)=>{
+                                            dispatch(peopleActions.toggleContact(itemData.item))
+                                        }}>
+                                            <MaterialCommunityIcons style={styles.contactFavouriteButton} name="account-multiple-check" color={itemData.item.isContact?'green':'gray'} size={30} />
+                                        </Pressable>
+                                        <Pressable onPress={()=>{
+                                            dispatch(peopleActions.toggleFavourite(itemData.item))
+                                        }}>
+                                            <MaterialCommunityIcons style={styles.contactFavouriteButton} name="account-heart" color={itemData.item.isFavourite? 'red':'gray'} size={30} />
+                                        </Pressable>
+                                    </View>
                                 </View>
-
-                            </View>
-                        )
-                    }}
-                    keyExtractor={(item,index) =>{
-                        return item.id}}
-                />
+                            )
+                        }}
+                        keyExtractor={(item,index) =>{
+                            return item.id}}
+                    />
+                </View>
             </View>
-        </View>
+        </ImageBackground>
+
+
     )
 }
 
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         padding:3,
         margin:2,
-        borderWidth:2,
-        borderRadius:5
+        borderBottomColor:'grey',
+        borderBottomWidth:1
     },
     userImage:{
         width:40,
@@ -101,19 +101,21 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center'
     },
+    namePositionContainer:{
+
+    },
     contactFavouriteContainer:{
-        flexDirection:'row',
-        padding:10,
+        position:'absolute',
+        bottom:10,
+        right:20,
+       flexDirection:'row',
     },
     contactFavouriteButton:{
         padding:5
     },
     searchContainer : {
-
         flexDirection:'row',
         justifyContent:'space-between',
-
-
     },
     search:{
         flex:0.5,
@@ -128,6 +130,6 @@ const styles = StyleSheet.create({
         flex:0.2,
         flexDirection:'row',
         backgroundColor:'green',
-
     },
+
 })
